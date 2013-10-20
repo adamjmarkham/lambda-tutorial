@@ -23,9 +23,10 @@ package org.adoptopenjdk.lambda.tutorial.exercise2;
  */
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 
-import static java.util.Collections.unmodifiableSet;
+import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toSet;
 
 /**
@@ -56,11 +57,9 @@ public enum ElectoralDistrict {
      * @return filtered set of registered voters in a district
      */
     public static Set<RegisteredVoter> votersIn(ElectoralDistrict district, Collection<RegisteredVoter> voters) {
-        Set<RegisteredVoter> registeredVotersIn = voters.stream()
+        return voters.stream()
                 .filter(voter -> voter.getElectorId().startsWith(district.getPrefix()))
-                .collect(toSet());
-
-        return unmodifiableSet(registeredVotersIn);
+                .collect(collectingAndThen(toSet(), Collections::unmodifiableSet));
     }
 
     /**
