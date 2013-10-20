@@ -23,7 +23,8 @@ package org.adoptopenjdk.lambda.tutorial.exercise2;
  */
 
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Class representing voting rules in an election
@@ -40,6 +41,6 @@ public class VotingRules {
     public static List<Person> eligibleVoters(List<Person> potentialVoters, int legalAgeOfVoting) {
         return potentialVoters.stream()
             .filter(voter -> voter.getAge() >= legalAgeOfVoting)
-            .collect(Collectors.toList());
+            .collect(toList());
     }
 }
