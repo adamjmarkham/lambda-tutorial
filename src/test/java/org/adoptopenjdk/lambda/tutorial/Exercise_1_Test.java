@@ -34,6 +34,7 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.adoptopenjdk.lambda.tutorial.exercise1.Color.*;
+import static org.adoptopenjdk.lambda.tutorial.exercise1.Shapes.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -102,7 +103,7 @@ public class Exercise_1_Test {
     public void changeColorOfAllShapes() {
         List<Shape> myShapes = asList(new Shape(BLUE), new Shape(BLACK), new Shape(YELLOW));
 
-        Shapes.colorAll(myShapes, RED);
+        colorAll(myShapes, RED);
 
         assertThat(myShapes, hasSize(3));
         assertThat(myShapes, everyItem(hasColor(RED)));
@@ -126,7 +127,7 @@ public class Exercise_1_Test {
         List<Shape> allMyShapes = asList(new Shape(RED), new Shape(BLACK), new Shape(YELLOW));
         StringBuilder builder = new StringBuilder();
 
-        Shapes.makeStringOfAllColors(allMyShapes, builder);
+        makeStringOfAllColors(allMyShapes, builder);
 
         assertThat(builder.toString(), equalTo("[a RED shape][a BLACK shape][a YELLOW shape]"));
     }
@@ -147,7 +148,7 @@ public class Exercise_1_Test {
         List<Shape> myShapes = asList(new Shape(BLUE), new Shape(BLACK), new Shape(YELLOW));
         StringBuilder builder = new StringBuilder();
 
-        Shapes.changeColorAndMakeStringOfOldColors(myShapes, RED, builder);
+        changeColorAndMakeStringOfOldColors(myShapes, RED, builder);
 
         assertThat(myShapes, hasSize(3));
         assertThat(myShapes, everyItem(hasColor(RED)));

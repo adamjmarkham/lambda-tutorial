@@ -22,7 +22,10 @@ package org.adoptopenjdk.lambda.tutorial;
  * #L%
  */
 
-import org.adoptopenjdk.lambda.tutorial.exercise2.*;
+import org.adoptopenjdk.lambda.tutorial.exercise2.Ballot;
+import org.adoptopenjdk.lambda.tutorial.exercise2.ElectoralDistrict;
+import org.adoptopenjdk.lambda.tutorial.exercise2.Person;
+import org.adoptopenjdk.lambda.tutorial.exercise2.RegisteredVoter;
 import org.adoptopenjdk.lambda.tutorial.util.FeatureMatchers;
 import org.hamcrest.Matcher;
 import org.junit.Test;
@@ -36,8 +39,9 @@ import java.util.stream.Stream;
 
 import static java.lang.Boolean.TRUE;
 import static java.util.Arrays.asList;
-import static org.adoptopenjdk.lambda.tutorial.exercise2.ElectoralDistrict.HACKNEY;
+import static org.adoptopenjdk.lambda.tutorial.exercise2.ElectoralDistrict.*;
 import static org.adoptopenjdk.lambda.tutorial.exercise2.Party.*;
+import static org.adoptopenjdk.lambda.tutorial.exercise2.VotingRules.eligibleVoters;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -151,7 +155,7 @@ public class Exercise_2_Test {
                 new ArrayList<>(asList(new Person("Tom", 24), new Person("Dick", 75), new Person("Harry", 17)));
 
         int legalAgeOfVoting = 18;
-        List<Person> eligibleVoters = VotingRules.eligibleVoters(potentialVoters, legalAgeOfVoting);
+        List<Person> eligibleVoters = eligibleVoters(potentialVoters, legalAgeOfVoting);
 
         assertThat(eligibleVoters, hasSize(2));
         assertThat(eligibleVoters, containsInAnyOrder(aPersonNamed("Tom"), aPersonNamed("Dick")));
@@ -191,7 +195,7 @@ public class Exercise_2_Test {
             new RegisteredVoter("ED9876")
         ));
 
-        Set<RegisteredVoter> votersInHackney = ElectoralDistrict.votersIn(HACKNEY, allVoters);
+        Set<RegisteredVoter> votersInHackney = votersIn(HACKNEY, allVoters);
 
         assertThat(votersInHackney, hasSize(2));
         assertThat(votersInHackney, containsInAnyOrder(aVoterWithId("HA7654"), aVoterWithId("HA2213")));
@@ -215,7 +219,7 @@ public class Exercise_2_Test {
                 Ballot.voteFor(GREEN_PARTY)
         ));
 
-        Set<Ballot> unspoiledBallots = ElectoralDistrict.unspoiledBallots(votes);
+        Set<Ballot> unspoiledBallots = unspoiledBallots(votes);
 
         assertThat(unspoiledBallots, hasSize(6));
         assertThat(unspoiledBallots, everyItem(is(not(spoiled()))));
@@ -242,7 +246,7 @@ public class Exercise_2_Test {
             new RegisteredVoter("ED9876")
         ));
 
-        Set<RegisteredVoter> votersInHackney = ElectoralDistrict.votersIn(HACKNEY, allVoters);
+        Set<RegisteredVoter> votersInHackney = votersIn(HACKNEY, allVoters);
 
         assertThat(votersInHackney, instanceOf(Class.forName("java.util.Collections$UnmodifiableSet")));
     }
