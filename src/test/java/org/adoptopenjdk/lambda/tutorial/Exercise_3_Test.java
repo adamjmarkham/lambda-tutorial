@@ -24,7 +24,6 @@ package org.adoptopenjdk.lambda.tutorial;
 
 import org.adoptopenjdk.lambda.tutorial.exercise3.Author;
 import org.adoptopenjdk.lambda.tutorial.exercise3.Book;
-import org.adoptopenjdk.lambda.tutorial.exercise3.Books;
 import org.adoptopenjdk.lambda.tutorial.exercise3.Publisher;
 import org.adoptopenjdk.lambda.tutorial.util.FeatureMatchers;
 import org.hamcrest.Matcher;
@@ -38,6 +37,7 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.adoptopenjdk.lambda.tutorial.exercise3.Books.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.equalTo;
@@ -146,7 +146,7 @@ public class Exercise_3_Test {
      */
     @Test
     public void getAllBookTitles() {
-        assertThat(Books.titlesOf(books),
+        assertThat(titlesOf(books),
                 containsInAnyOrder("Effective Java", "Java Concurrency In Practice", "Java For Dummies"));
     }
 
@@ -160,7 +160,7 @@ public class Exercise_3_Test {
      */
     @Test
     public void getNamesOfAuthorsOfBooks() {
-        assertThat(Books.namesOfAuthorsOf(books),
+        assertThat(namesOfAuthorsOf(books),
                 containsInAnyOrder("Joshua Bloch", "Brian Goetz", "Barry Burd"));
     }
 
@@ -178,14 +178,14 @@ public class Exercise_3_Test {
      */
     @Test
     public void getPublishersRepresentedByBooks() {
-        assertThat(Books.publishersRepresentedBy(books),
+        assertThat(publishersRepresentedBy(books),
                 containsInAnyOrder(publisherNamed("Addison-Wesley"), publisherNamed("John Wiley & Sons")));
     }
 
     // Test helpers
 
     private static Matcher<Publisher> publisherNamed(String name) {
-        return FeatureMatchers.from(equalTo(name), "is named", "name", publisher -> publisher.getName());
+        return FeatureMatchers.from(equalTo(name), "is named", "name", Publisher::getName);
     }
 
 }

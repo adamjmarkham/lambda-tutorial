@@ -27,22 +27,21 @@ import org.adoptopenjdk.lambda.tutorial.exercise4.Document.Page;
 import org.adoptopenjdk.lambda.tutorial.exercise4.Documents;
 import org.adoptopenjdk.lambda.tutorial.exercise4.PagePrinter;
 import org.adoptopenjdk.lambda.tutorial.exercise4.Translator;
-import org.adoptopenjdk.lambda.tutorial.exercise4.Translator.Languages;
 import org.adoptopenjdk.lambda.tutorial.util.FeatureMatchers;
 import org.hamcrest.Matcher;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.function.Consumer;
 
 import static java.lang.String.format;
+import static java.util.Arrays.asList;
+import static org.adoptopenjdk.lambda.tutorial.exercise4.Documents.*;
+import static org.adoptopenjdk.lambda.tutorial.exercise4.Translator.Languages.REVERSISH;
 import static org.adoptopenjdk.lambda.tutorial.util.CodeUsesMethodReferencesMatcher.usesMethodReferences;
+import static org.adoptopenjdk.lambda.tutorial.util.PrettyTestUtils.to;
 import static org.adoptopenjdk.lambda.tutorial.util.StringWithComparisonMatcher.isString;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.endsWith;
-import static org.hamcrest.Matchers.everyItem;
+import static org.hamcrest.Matchers.*;
 
 /**
  * Exercise 4 - Method References
@@ -169,13 +168,13 @@ public class Exercise_4_Test {
     @Test
     public void getListOfDocumentTitlesUsingReferenceOfInstanceMethodBelongingToAClass() {
         Document expenses = new Document("My Expenses",
-                Arrays.asList(new Page("LJC Open Conference ticket: £25"), new Page("Beer stipend: £100")));
+                asList(new Page("LJC Open Conference ticket: £25"), new Page("Beer stipend: £100")));
         Document toDoList = new Document("My ToDo List",
-                Arrays.asList(new Page("Build a todo app"), new Page("Pick up dry cleaning")));
+                asList(new Page("Build a todo app"), new Page("Pick up dry cleaning")));
         Document certificates = new Document("My Certificates",
-                Arrays.asList(new Page("Oracle Certified Professional"), new Page("Swimming 10m")));
+                asList(new Page("Oracle Certified Professional"), new Page("Swimming 10m")));
 
-        assertThat(Documents.titlesOf(expenses, toDoList, certificates),
+        assertThat(titlesOf(expenses, toDoList, certificates),
                 contains("My Expenses", "My ToDo List", "My Certificates"));
         assertThat(Documents.class, usesMethodReferences("getTitle"));
 
@@ -193,12 +192,12 @@ public class Exercise_4_Test {
      */
     @Test
     public void getListOfPageCharacterCountsFromDocumentUsingReferenceOfStaticMethodBelongingToAClass() {
-        Document diary = new Document("My Diary", Arrays.asList(
+        Document diary = new Document("My Diary", asList(
                 new Page("Today I went shopping"),
                 new Page("Today I did maths"),
                 new Page("Today I wrote in my diary")));
 
-        assertThat(Documents.pageCharacterCounts(diary), contains(21, 17, 25));
+        assertThat(pageCharacterCounts(diary), contains(21, 17, 25));
         assertThat(Documents.class, usesMethodReferences("characterCount"));
     }
 
@@ -217,12 +216,12 @@ public class Exercise_4_Test {
      */
     @Test
     public void printContentsOfDocumentUsingReferenceOfInstanceMethodBeloningToAnObject() {
-        Document diary = new Document("My Diary", Arrays.asList(
+        Document diary = new Document("My Diary", asList(
                 new Page("Today I went shopping"),
                 new Page("Today I did maths"),
                 new Page("Today I wrote in my diary")));
 
-        assertThat(Documents.print(diary, new PagePrinter("----")),
+        assertThat(print(diary, new PagePrinter("----")),
                 isString(format("My Diary%n" +
                                 "----%n" +
                                 "Today I went shopping%n" +
@@ -246,7 +245,7 @@ public class Exercise_4_Test {
      */
     @Test
     public void transformPagesToHaveFooterUsingReferenceOfInstanceMethodBelonginToThisObject() {
-        Document diary = new Document("My Diary", Arrays.asList(
+        Document diary = new Document("My Diary", asList(
                 new Page("Today I went shopping"),
                 new Page("Today I did maths"),
                 new Page("Today I wrote in my diary")));
@@ -271,12 +270,12 @@ public class Exercise_4_Test {
      */
     @Test
     public void createNewDocumentWithTranslatedPagesUsingReferenceOfConstructorMethod() {
-        Document diary = new Document("My Diary", Arrays.asList(
+        Document diary = new Document("My Diary", asList(
                 new Page("Today I went shopping"),
                 new Page("Today I did maths"),
                 new Page("Today I wrote in my diary")));
 
-        Document translated = Documents.translate(diary, Languages.REVERSISH);
+        Document translated = translate(diary, to(REVERSISH));
 
         assertThat(translated.getPages(),
                 contains(pageContaining("gnippohs tnew I yadoT"),

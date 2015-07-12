@@ -30,18 +30,12 @@ import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.List;
 
-import static org.adoptopenjdk.lambda.tutorial.exercise1.Color.BLACK;
-import static org.adoptopenjdk.lambda.tutorial.exercise1.Color.BLUE;
-import static org.adoptopenjdk.lambda.tutorial.exercise1.Color.GREEN;
-import static org.adoptopenjdk.lambda.tutorial.exercise1.Color.RED;
-import static org.adoptopenjdk.lambda.tutorial.exercise1.Color.YELLOW;
+import static java.util.Arrays.asList;
+import static org.adoptopenjdk.lambda.tutorial.exercise1.Color.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.everyItem;
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.*;
 
 /**
  * Exercise 1 - Internal vs External iteration.
@@ -106,9 +100,8 @@ public class Exercise_1_Test {
      */
     @Test
     public void changeColorOfAllShapes() {
-        List<Shape> myShapes = Arrays.asList(new Shape(BLUE), new Shape(BLACK), new Shape(YELLOW));
+        List<Shape> myShapes = asList(new Shape(BLUE), new Shape(BLACK), new Shape(YELLOW));
 
-        // method under test
         Shapes.colorAll(myShapes, RED);
 
         assertThat(myShapes, hasSize(3));
@@ -130,10 +123,9 @@ public class Exercise_1_Test {
      */
     @Test
     public void buildStringRepresentingAllShapes() {
-        List<Shape> allMyShapes = Arrays.asList(new Shape(RED), new Shape(BLACK), new Shape(YELLOW));
+        List<Shape> allMyShapes = asList(new Shape(RED), new Shape(BLACK), new Shape(YELLOW));
         StringBuilder builder = new StringBuilder();
 
-        // method under test
         Shapes.makeStringOfAllColors(allMyShapes, builder);
 
         assertThat(builder.toString(), equalTo("[a RED shape][a BLACK shape][a YELLOW shape]"));
@@ -152,7 +144,7 @@ public class Exercise_1_Test {
      */
     @Test
     public void changeColorOfAllShapes_AND_buildStringShowingAllTheOldColors() {
-        List<Shape> myShapes = Arrays.asList(new Shape(BLUE), new Shape(BLACK), new Shape(YELLOW));
+        List<Shape> myShapes = asList(new Shape(BLUE), new Shape(BLACK), new Shape(YELLOW));
         StringBuilder builder = new StringBuilder();
 
         Shapes.changeColorAndMakeStringOfOldColors(myShapes, RED, builder);

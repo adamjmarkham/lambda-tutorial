@@ -22,39 +22,24 @@ package org.adoptopenjdk.lambda.tutorial;
  * #L%
  */
 
-import org.adoptopenjdk.lambda.tutorial.exercise2.Ballot;
-import org.adoptopenjdk.lambda.tutorial.exercise2.ElectoralDistrict;
-import org.adoptopenjdk.lambda.tutorial.exercise2.Party;
-import org.adoptopenjdk.lambda.tutorial.exercise2.Person;
-import org.adoptopenjdk.lambda.tutorial.exercise2.RegisteredVoter;
-import org.adoptopenjdk.lambda.tutorial.exercise2.VotingRules;
+import org.adoptopenjdk.lambda.tutorial.exercise2.*;
 import org.adoptopenjdk.lambda.tutorial.util.FeatureMatchers;
 import org.hamcrest.Matcher;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static java.lang.Boolean.TRUE;
 import static java.util.Arrays.asList;
-import static java.util.Arrays.binarySearch;
 import static org.adoptopenjdk.lambda.tutorial.exercise2.ElectoralDistrict.HACKNEY;
+import static org.adoptopenjdk.lambda.tutorial.exercise2.Party.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.everyItem;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.*;
 
 /**
  * Exercise 2 - Filtering and Collecting
@@ -204,7 +189,6 @@ public class Exercise_2_Test {
             new RegisteredVoter("BA9987"),
             new RegisteredVoter("CR6203"),
             new RegisteredVoter("ED9876")
-            // ... and many more
         ));
 
         Set<RegisteredVoter> votersInHackney = ElectoralDistrict.votersIn(HACKNEY, allVoters);
@@ -221,15 +205,14 @@ public class Exercise_2_Test {
      */
     @Test public void removeAllSpoiledBallots() {
         Set<Ballot> votes = new HashSet<>(asList(
-                Ballot.voteFor(Party.LABOUR),
-                Ballot.voteFor(Party.CONSERVATIVE),
+                Ballot.voteFor(LABOUR),
+                Ballot.voteFor(CONSERVATIVE),
                 Ballot.spoiled(),
-                Ballot.voteFor(Party.MONSTER_RAVING_LOONY_PARTY),
-                Ballot.voteFor(Party.LIBERAL_DEMOCRATS),
+                Ballot.voteFor(MONSTER_RAVING_LOONY_PARTY),
+                Ballot.voteFor(LIBERAL_DEMOCRATS),
                 Ballot.spoiled(),
-                Ballot.voteFor(Party.GREEN_PARTY),
-                Ballot.voteFor(Party.GREEN_PARTY)
-                // ... and many more
+                Ballot.voteFor(GREEN_PARTY),
+                Ballot.voteFor(GREEN_PARTY)
         ));
 
         Set<Ballot> unspoiledBallots = ElectoralDistrict.unspoiledBallots(votes);
@@ -257,7 +240,6 @@ public class Exercise_2_Test {
             new RegisteredVoter("BA9987"),
             new RegisteredVoter("CR6203"),
             new RegisteredVoter("ED9876")
-            // ... and many more
         ));
 
         Set<RegisteredVoter> votersInHackney = ElectoralDistrict.votersIn(HACKNEY, allVoters);
@@ -268,15 +250,15 @@ public class Exercise_2_Test {
     // Test helpers
 
     private static Matcher<Person> aPersonNamed(String name) {
-        return FeatureMatchers.from(is(name), "a person", "name", person -> person.getName());
+        return FeatureMatchers.from(is(name), "a person", "name", Person::getName);
     }
 
     private static Matcher<RegisteredVoter> aVoterWithId(String name) {
-        return FeatureMatchers.from(is(name), "a voter", "electorId", voter -> voter.getElectorId());
+        return FeatureMatchers.from(is(name), "a voter", "electorId", RegisteredVoter::getElectorId);
     }
 
     private static Matcher<Ballot> spoiled() {
-        return FeatureMatchers.from(equalTo(Boolean.TRUE), "a spoiled ballot", "isSpoiled", ballot -> ballot.isSpoiled());
+        return FeatureMatchers.from(equalTo(TRUE), "a spoiled ballot", "isSpoiled", Ballot::isSpoiled);
     }
 
 }
